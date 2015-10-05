@@ -1,0 +1,37 @@
+package battleship_game;
+
+public class AIplay
+{
+	public int lasta;
+	public int lastb;
+	public int lasta2;
+	public int lastb2;
+	public int lasta3;
+	public int lastb3;
+	public int lasta4;
+	public int lastb4;
+	public char himi;
+	public char himi2;
+	public char himi3;
+	public char himi4;
+	public int count;
+	public boolean error;	
+	
+	public AIplay()
+	{
+		lasta = 0;
+		lastb = 0;
+		lasta2 = 0;
+		lastb2 = 0;
+		lasta3 = 0;
+		lastb3 = 0;
+		lasta4 = 0;
+		lastb4 = 0;
+		himi = 'M';
+		himi2 = 'M';
+		himi3 = 'M';
+		himi4 = 'M';
+		count = 0;
+		error = false;
+	}
+}
