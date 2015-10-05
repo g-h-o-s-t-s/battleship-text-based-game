@@ -1,0 +1,18 @@
+package battleship_game;
+
+public class BoardPiece
+{
+	public String piece;
+	public char player;
+	public boolean used;
+	public boolean selected;
+	public char type;
+	
+	public BoardPiece()
+	{
+		piece = "_~_|";
+		used = false;
+		selected = false;
+		type = ' ';
+	}
+}
