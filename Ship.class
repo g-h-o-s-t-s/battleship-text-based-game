@@ -1,0 +1,17 @@
+package battleship_game;
+
+public class Ship
+{
+	public char type;
+	public boolean placed;
+	public String location;
+	public char direction;
+	
+	public Ship(char x)
+	{
+		type = x;
+		placed = false;
+		location = "";
+		direction = ' ';
+	}
+}
