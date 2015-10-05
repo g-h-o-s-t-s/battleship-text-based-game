@@ -1,0 +1,752 @@
+package battleship_game;
+
+import java.util.Scanner;
+import java.util.Random;
+
+public class Battleship 
+{
+	private Scanner in;
+
+	private char turn = 'X';
+	private boolean win = false;
+	private int phits = 0;
+	private int ehits = 0;
+	private Random generator = new Random(System.currentTimeMillis());
+	
+	private int s=0, es=0;
+	private int a=0, ea=0;
+	private int d=0, ed=0;
+	private int p=0, ep=0;
+	private int b=0, eb=0;
+	
+	private Ship sub = new Ship('S');
+	private Ship destroyer = new Ship('D');
+	private Ship battleship = new Ship('B');
+	private Ship patrol_boat = new Ship('P');
+	private Ship aircraft_carrier = new Ship('A');
+
+	private Ship e_sub = new Ship('S');
+	private Ship e_destroyer = new Ship('D');
+	private Ship e_battleship = new Ship('B');
+	private Ship e_aircraft_carrier = new Ship('A');
+	private Ship e_patrol_boat = new Ship('P');
+	private AIplay AI = new AIplay();
+	
+	private static BoardPiece[][] pboard = {{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()}};
+	private static BoardPiece[][] eboard ={{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()},
+											{new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece(), 
+											new BoardPiece(), new BoardPiece()}};
+										
+	public static void main(String [] args)
+	{
+		Battleship game = new Battleship();
+		game.in = new Scanner(System.in);
+		game.play();
+		System.out.println("Goodbye!");
+	}
+	
+	public void play()
+	{
+		printBoard();
+		placeShips();
+		AIplaceShips();
+		System.out.println("Enter your moves in the form 'A1'");
+		while(!win)
+		{
+			fire();
+			checkWin();
+		}
+	}
+	
+	public void printBoard()
+	{
+		System.out.println("        	  ENEMY                            		 PLAYER                     ");
+		System.out.println("   0   1   2   3   4   5   6   7   8   9          0   1   2   3   4   5   6   7   8   9");
+		for(int x=0; x<10; x++)
+		{
+			System.out.print((char)(65+x) + " ");
+			for(int y=0; y<10; y++)
+			{
+				System.out.print(eboard[x][y].piece);
+			}
+			System.out.print("     ");
+			System.out.print((char)(65+x) + " ");
+			for(int z=0; z<10; z++)
+			{
+				System.out.print(pboard[x][z].piece);
+			}
+			System.out.println();
+		}
+	}
+	
+	public void placeShips()
+	{
+		System.out.println();
+		System.out.println("Hi! Place your ships on the board!");
+		System.out.println("You have 5 ships:  S: 3-spot Submarine, D: 3-spot Destroyer, " +
+				"B: 4-spot Battleship, A: 5-spot Aircraft Carrier, P: 2-spot Patrol Boat");
+		System.out.println("First, select the letter of the ship. " +
+				           "Then select the starting point where you want the Ship to be placed, like 'C4'.");
+		System.out.println("Then select the direction; H=horizontal, V=vertical.");
+		System.out.println("For example, 'S C5 V', then press enter");
+		System.out.println("When you are done, enter '!' to start.");
+		
+		String input = "";
+		boolean start = false; 
+		
+		while(!start)
+		{
+			input = in.nextLine();
+			int size = 0;
+			if (input.charAt(0)=='S') size = 3;
+			else if(input.charAt(0)=='D') size = 3;
+			else if(input.charAt(0)=='B') size = 4;
+			else if(input.charAt(0)=='A') size = 5;
+			else if(input.charAt(0)=='P') size = 2;
+			
+			if(input.length() == 1)
+			{
+				if(input.charAt(0) == '!')
+				{
+					if(battleship.placed && destroyer.placed && sub.placed 
+							&& aircraft_carrier.placed && patrol_boat.placed)
+						start = true;
+					else
+						System.out.println("You need to place all of your ships.");
+				}
+				else
+				{
+					System.out.println("Invalid Input. Try Again.");
+				}
+			}
+			else if(input.length() == 6)
+			{
+				if(input.charAt(0) == 'a' || input.charAt(0) == 'd' ||
+						input.charAt(0) == 'b' || input.charAt(0) == 's' || input.charAt(0) == 'p')
+				{
+					System.out.println("Invalid Ship Type. Try Again.");
+				}
+				else if(((int)input.charAt(2)-65) >= 10)
+				{
+					System.out.println("Invalid Row. Try Again.");
+				}
+				else if(((int)input.charAt(3)-48) >= 10)
+				{
+					System.out.println("Invalid Column. Try Again.");
+				}
+				else if((int)input.charAt(5) != 72 && (int)input.charAt(5) != 86)
+				{
+					System.out.println("Invalid Direction. Try Again.");
+				}
+				else
+				{   //Valid Input
+					if((int)input.charAt(5) == 72 && 
+							(((size) > (10 - ((int)input.charAt(3)-48)))))
+					{
+						System.out.println("Invalid Horizontal Placement. Not enough room.");
+					}
+					else if((int)input.charAt(5) == 86 && 
+							(((size) > (10 - ((int)input.charAt(2) - 65)))))
+					{
+						System.out.println("Invalid Vertical Placement. Not enough room.");
+					}
+					else
+					{ //Valid Placement, except for overlap
+						if(input.charAt(0) == 'S')
+						{
+							placeBoard(input.charAt(5), sub, input.substring(2,4), size);
+						}
+						else if(input.charAt(0) == 'D')
+						{
+							placeBoard(input.charAt(5), destroyer, input.substring(2,4), size);
+						}
+						else if(input.charAt(0) == 'B')
+						{
+							placeBoard(input.charAt(5), battleship, input.substring(2,4), size);
+						}
+						else if(input.charAt(0) == 'A')
+						{
+							placeBoard(input.charAt(5), aircraft_carrier, input.substring(2,4), size);
+						}
+						else
+						{
+							placeBoard(input.charAt(5), patrol_boat, input.substring(2,4), size);
+						}
+					}
+				}
+			}
+			else
+			{
+				System.out.println("Invalid Input. Try Again.");
+			}
+		}
+	}
+	
+	public void AIplaceShips()
+	{
+		boolean flag = false;
+		int size = 0;
+		for(int x=0;x<5;x++)
+		{
+			if(x==0)size = 3;
+			else if (x==1) size = 3;
+			else if (x==2) size = 4;
+			else if (x==3) size = 5;
+			else size = 2;
+			flag = false;
+			while(!flag)
+			{
+				int a = generator.nextInt(2);
+				int b = generator.nextInt(10);
+				int c = generator.nextInt(10);
+				if(a == 0)
+					a = 72;
+				else
+					a = 86;
+				b += 65;
+				c += 48;
+
+				if(a == 72 && size > (10 - (c-48)))
+				{
+					//no good, try again
+				}
+				else if(a == 86 && size > (10 - (b-65)))
+				{
+					//no good, try again
+				}
+				else
+				{ //valid placement
+					String d = String.valueOf((char)b) + String.valueOf((char)c);
+					
+					if(x == 0)
+					{
+						flag = AIplaceBoard((char)a, e_sub, d); 
+					}
+					else if(x == 1)
+					{
+						flag = AIplaceBoard((char)a, e_destroyer, d);
+					}
+					else if(x == 2)
+					{
+						flag = AIplaceBoard((char)a, e_battleship, d);
+					}
+					else if(x == 3)
+					{
+						flag = AIplaceBoard((char)a, e_aircraft_carrier, d);
+					}
+					else
+					{
+						flag = AIplaceBoard((char)a, e_patrol_boat, d);
+					}
+				}
+			}
+		}
+	}
+	
+	public void placeBoard(char layout, Ship current, String locale, int size)
+	{
+		boolean overlap = false;
+		
+		if(layout == 'H')
+		{
+			for(int x=((int)locale.charAt(1)-48);x<((int)locale.charAt(1)-48)+(size);x++)
+			{
+				if(pboard[((int)locale.charAt(0)-65)][x].type != current.type &&
+				   pboard[((int)locale.charAt(0)-65)][x].used == true)
+					overlap = true;
+			}
+		}
+		else
+		{  //layout == 'V'
+			for(int x=((int)locale.charAt(0)-65);x<((int)locale.charAt(0)-65)+(size);x++)
+			{
+				if(pboard[x][((int)locale.charAt(1)-48)].type != current.type &&
+				   pboard[x][((int)locale.charAt(1)-48)].used == true)
+					overlap = true;
+			}
+		}
+		if(!overlap)
+		{ //If ships don't overlap
+			if(current.placed)
+			{
+				if(current.direction == 'H')
+				{
+					for(int x=((int)current.location.charAt(1)-48);
+							x<((int)current.location.charAt(1)-48)+(size); x++)
+					{
+						pboard[((int)current.location.charAt(0)-65)][x].piece = "_~_|";
+						pboard[((int)current.location.charAt(0)-65)][x].used = false;
+						pboard[((int)current.location.charAt(0)-65)][x].type = 0;
+					}
+				}
+				else
+				{  //direction == 'V'
+					for(int x=((int)current.location.charAt(0)-65);
+							x<((int)current.location.charAt(0)-65)+(size); x++)
+					{
+						pboard[x][((int)current.location.charAt(1)-48)].piece = "_~_|";
+						pboard[x][((int)current.location.charAt(1)-48)].used = false;
+						pboard[x][((int)current.location.charAt(1)-48)].type = 0;
+					}
+				}
+			}
+			if(layout == 'H')
+			{
+				for(int x=((int)locale.charAt(1)-48); x<((int)locale.charAt(1)-48)+(size); x++)
+				{
+					pboard[((int)locale.charAt(0)-65)][x].piece = "_" + current.type +"_|";
+					pboard[((int)locale.charAt(0)-65)][x].used = true;
+					pboard[((int)locale.charAt(0)-65)][x].type = (char)current.type;
+				}
+			}
+			else
+			{  //layout == 'V'
+				for(int x=((int)locale.charAt(0)-65); x<((int)locale.charAt(0)-65)+(size); x++)
+				{
+					pboard[x][((int)locale.charAt(1)-48)].piece = "_" + current.type +"_|";
+					pboard[x][((int)locale.charAt(1)-48)].used = true;
+					pboard[x][((int)locale.charAt(1)-48)].type = (char)current.type;
+				}
+			}
+			current.placed = true;
+			current.location = locale;
+			current.direction = layout;
+			printBoard();
+		}
+		else
+			System.out.println("Invalid Placement. Ships Overlap.");
+	}
+	
+public boolean AIplaceBoard(char layout, Ship current, String locale)
+{
+		int size = 0;
+		if (current.type=='S') size = 3;
+		else if(current.type=='D') size = 3;
+		else if(current.type=='B') size = 4;
+		else if(current.type=='A') size = 5;
+		else if(current.type=='P') size = 2;
+		boolean overlap = false;
+		
+		if(layout == 'H')
+		{
+			for(int x=((int)locale.charAt(1)-48); x<((int)locale.charAt(1)-48)+(size); x++)
+			{
+				if(eboard[((int)locale.charAt(0)-65)][x].type != current.type &&
+				   eboard[((int)locale.charAt(0)-65)][x].used == true)
+					overlap = true;
+			}
+		}
+		
+		else
+		{  //layout == 'V'
+			for(int x=((int)locale.charAt(0)-65); x<((int)locale.charAt(0)-65)+(size); x++)
+			{
+				if(eboard[x][((int)locale.charAt(1)-48)].type != current.type &&
+				   eboard[x][((int)locale.charAt(1)-48)].used == true)
+					overlap = true;
+			}
+		}
+		if(!overlap){ //If ships don't overlap
+			if(layout == 'H')
+			{
+				for(int x=((int)locale.charAt(1)-48); x<((int)locale.charAt(1)-48)+(size); x++)
+				{
+					eboard[((int)locale.charAt(0)-65)][x].used = true;
+					eboard[((int)locale.charAt(0)-65)][x].type = (char)current.type;
+				}
+			}
+			else
+			{  //layout == 'V'
+				for(int x=((int)locale.charAt(0)-65); x<((int)locale.charAt(0)-65)+(size); x++)
+				{
+					eboard[x][((int)locale.charAt(1)-48)].used = true;
+					eboard[x][((int)locale.charAt(1)-48)].type = (char)current.type;
+				}
+			}
+			current.placed = true;
+			current.location = locale;
+			current.direction = layout;
+			return true;
+		}
+		else
+			return false;
+	}
+
+	public void fire()
+	{
+		String move = "";
+		String valid = "";
+
+		if(turn == 'X')
+		{
+			System.out.println("Enter move: ");	
+			move = in.nextLine();
+		}
+		else
+			move = moveAI();
+		
+		valid = verify(move);
+		while(valid != "ok")
+		{
+			if(turn == 'X')
+			{
+				System.out.println("ERROR: "+ valid);
+				move = in.nextLine();
+			}
+			else
+				move = moveAI(); 
+			valid = verify(move);
+		}
+		
+		makeMove(move);
+		
+		if(turn == 'O')
+			printBoard();
+		
+		if(turn == 'X')
+			turn = 'O';
+		else
+			turn = 'X';
+	}
+	
+	public String verify(String move)
+	{
+		if(move.length() == 2)
+		{
+		if(((int)move.charAt(0)-65) >= 10)
+			return "Invalid Row. Can only be A-F. Enter another move: ";	
+		if(((int)move.charAt(1)-48) >= 10)
+			return "Invalid Column. Can only be 0-9. Enter another move: ";
+		}
+		else 
+			return "Invalid Input.";
+		if(turn == 'X')
+		{
+			if(eboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].selected)  
+				return "Already chosen. Enter another move: ";
+		}
+		else
+		{
+			if(pboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].selected)
+			{
+		        AI.error = true;
+		        AI.himi = 'M';
+				return "Stupid AI...";
+			}
+		}
+		
+		return "ok";
+	}
+	
+	public void makeMove(String move)
+	{
+		char himi = ' '; //hit or miss
+		String message = "";
+		
+		if(turn == 'X')
+		{
+			if(eboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].used)
+			{   
+				himi = 'H';
+				message = "Hit!";
+				phits++;
+				if(eboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].type == 'S')s++;
+				if(eboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].type == 'D')d++;
+				if(eboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].type == 'A')a++;
+				if(eboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].type == 'B')b++;
+				if(eboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].type == 'P')p++;
+				
+			}
+			else{
+				himi = 'M';
+				message = "Miss!";
+			}
+			eboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].piece = "_"+himi+"_|";
+			eboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].selected = true;
+		}
+		else
+		{
+			if(pboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].used)
+			{   
+				himi = 'H';
+				message = "Hit!";
+				AI.himi4 = AI.himi3;
+				AI.himi3 = AI.himi2;
+				AI.himi2 = AI.himi;
+				AI.himi = 'H';
+				AI.count++;
+				ehits++;
+				if(pboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].type == 'S')es++;
+				if(pboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].type == 'D')ed++;
+				if(pboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].type == 'A')ea++;
+				if(pboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].type == 'B')eb++;
+				if(pboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].type == 'P')ep++;
+			}
+			else
+			{
+				himi = 'M';
+				message = "Miss!";
+				AI.himi4 = AI.himi3;
+				AI.himi3 = AI.himi2;
+				AI.himi2 = AI.himi;
+				AI.himi = 'M';
+				AI.count++;
+			}
+			pboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].piece = "_"+himi+"_|";
+			pboard[((int)move.charAt(0)-65)][((int)move.charAt(1)-48)].selected = true;
+		}
+
+		if(turn == 'O')
+			message = "Enemy " + message;
+		System.out.println(message);
+	}
+	
+	public void checkWin()
+	{  
+		if(a==5){System.out.println("You destroyed the Aircraft Carrier!");a=0;}
+		if(b==4){System.out.println("You destroyed the Battleship!");b=0;}
+		if(s==3){System.out.println("You destroyed the Submarine!");s=0;}
+		if(d==3){System.out.println("You destroyed the Destroyer!");d=0;}
+		if(p==2){System.out.println("You destroyed the Patrol Boat!");p=0;}
+		if(ea==5){System.out.println("Your Aircraft Carrier was destroyed!");ea=0;}
+		if(eb==4){System.out.println("Your Battleship was destroyed!");eb=0;}
+		if(es==3){System.out.println("Your Submarine was destroyed!");es=0;}
+		if(ed==3){System.out.println("Your Destroyer was destroyed!");ed=0;}
+		if(ep==2){System.out.println("Your Patrol Boat was destroyed!");ep=0;}
+        if(phits == 17)
+        {
+    	    win = true;
+    	    System.out.println("Congratulations, you win!");
+        }
+        if(ehits == 17)
+        {
+    	    win = true;
+    	    System.out.println("Sorry, you lose...");
+        }
+	}
+	
+	public void initBoard()
+	{
+		  for(int x=0;x<10;x++)
+		  {
+			  for(int y=0;y<10;y++)
+			  {
+				  eboard[x][y] = new BoardPiece();
+				  pboard[x][y] = new BoardPiece();
+			  }			 
+		  }
+		  turn = 'X';
+		  win = false;
+		  phits = 0;
+		  ehits = 0;
+		  sub = new Ship('S');
+		  destroyer = new Ship('D');
+		  battleship = new Ship('B');
+		  aircraft_carrier = new Ship('A');
+		  patrol_boat = new Ship('P');
+		  e_sub = new Ship('S');
+		  e_destroyer = new Ship('D');
+		  e_battleship = new Ship('B');
+		  e_aircraft_carrier = new Ship('A');
+		  e_patrol_boat = new Ship('P');
+	}
+	
+	public String moveAI()
+	{
+		int x = 0;
+		int y = 0;
+		boolean hunt = false;
+		if(AI.himi=='H')hunt=true;
+		if(ea==5||eb==4||es==3||ed==3||ep==2)hunt=false;
+		
+		if(AI.count<1 || !(hunt) || AI.error)
+		{
+			x = generator.nextInt(10);
+		    y = generator.nextInt(10);
+			x += 65;
+			y += 48;
+			AI.error = false;
+		}
+		else if(AI.himi == 'H')
+		{
+			if(AI.himi2 == 'H' && AI.lasta2-1==AI.lasta)
+			{
+				if(AI.lasta2<74)
+					x=AI.lasta2+1;
+				else
+					x=AI.lasta2-2;
+				y=AI.lastb2;
+			}
+			else if(AI.himi2 == 'H' && AI.lasta2+1==AI.lasta)
+			{
+				if(AI.lasta<74)
+					x=AI.lasta2+2;
+				else	
+					x=AI.lasta2-1;
+				y=AI.lastb2;
+			}
+			if(AI.himi2 == 'H' && AI.lastb2-1==AI.lastb)
+			{
+				if(AI.lastb2<57)
+					y=AI.lastb2+1;
+				else
+					y=AI.lastb2-2;
+				x=AI.lasta2;
+			}
+			else if(AI.himi2 == 'H' && AI.lastb2+1==AI.lastb)
+			{
+				if(AI.lastb<57)
+					y=AI.lastb2+2;
+				else	
+					y=AI.lastb2-1;
+				x=AI.lasta2;
+			}
+			
+			x = AI.lasta;
+			if(AI.lastb<57)
+				y = AI.lastb + 1;
+			else
+				y = AI.lastb - 1;
+		}
+		else if(AI.himi2 == 'H' && AI.himi == 'M')
+		{
+			if(AI.lasta2<74)
+				x = AI.lasta2 + 1;
+			else
+				x = AI.lasta2 - 1;
+			y = AI.lastb2;
+		}
+		else if(AI.himi3 == 'H' && AI.himi2 == 'M')
+		{
+			if(AI.lasta3<74)
+				x = AI.lasta3 - 1;
+			y = AI.lastb3;
+		}
+		else if(AI.himi4 == 'H' && AI.himi3 == 'M')
+		{
+			x = AI.lasta4;
+			if(AI.lasta4<57)
+				y = AI.lastb4 - 1;
+		}
+
+		String z = String.valueOf((char)x) + String.valueOf((char)y);
+		
+		AI.lasta4 = AI.lasta3;
+		AI.lastb4 = AI.lastb3;
+		AI.lasta3 = AI.lasta2;
+		AI.lastb3 = AI.lastb2;
+		AI.lasta2 = AI.lasta;
+		AI.lastb2 = AI.lastb;
+		AI.lasta = x;
+		AI.lastb = y;
+		
+		return z;
+	}
+	
+}
